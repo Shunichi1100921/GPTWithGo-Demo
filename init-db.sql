@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS your_table_name (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    answer TEXT NOT NULL,
+    feedback TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
