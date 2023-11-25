@@ -2,34 +2,34 @@
 The demo code to use Open AI API written in Go.
 
 # SetUp
-1. Setup MySQL with docker using docker-compose.yml.
+1. Build Docker.
 ```bash
 docker-compose up -d
 ```
-2. Set OpenAI API Key as environment variable.
+2. Set OpenAI API Key as an environment variable.
 ```bash
 OPENAI_API_KEY=YOUR_API_KEY
 ```
-3. Execute go file.
-  - If you want to use Streaming response, code `func main` in `main.go` as below.
+3. Execute the go file.
+  - If you want to use a Streaming response, code `func main` in `main.go` as below.
 ```main.go
 func main() {
     chatbotDemo.ChatStream()
     // chatbotDemo.ChatJSON()
 }
 ```
-  - If you want to use JSON response, code `func main` in `main.go` as below.
+  - If you want to use a JSON response, code `func main` in `main.go` as below.
 ```main.go
 func main() {
     // chatbotDemo.ChatStream()
     chatbotDemo.ChatJSON()
 }
 ```
-5. Build go file.
+5. Build a go file.
 ```bash
-go build main.go
+go build
 ```
-6. Run app.
+6. Run the app.
 ```bash
 ./demo
 ```
