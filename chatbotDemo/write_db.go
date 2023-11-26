@@ -21,8 +21,3 @@ func SaveContent(content Content) {
 	}
 	fmt.Println("Content inserted successfully.")
 }
-
-func main() {
-	demoContent := Content{Answer: "Answer", Feedback: "Feedback"}
-	SaveContent(demoContent)
-}
