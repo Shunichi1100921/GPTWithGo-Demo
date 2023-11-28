@@ -15,16 +15,20 @@ type DBContent struct {
 	CreatedAt time.Time
 }
 
-func ReadContent(content Content) {
+func connectDB() *sql.DB {
 	dataSourceName := "root:password@tcp(localhost:3306)/demoSQL"
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		fmt.Printf("DB Connection error %v\n", err)
 	}
 	defer db.Close()
+	return db
+}
 
+func ReadContent(content Content) {
+	db := connectDB()
 	// Ping make sure connection to DB
-	err = db.Ping()
+	err := db.Ping()
 	if err != nil {
 		fmt.Printf("DB Ping error %v\n", err)
 	}
@@ -60,14 +64,9 @@ func ShowJSON() {
 }
 
 func SaveContent(content Content) {
-	dataSourceName := "root:password@tcp(localhost:3306)/demoSQL"
-	db, err := sql.Open("mysql", dataSourceName)
-	if err != nil {
-		fmt.Printf("DB Connection error %v\n", err)
-	}
-	defer db.Close()
+	db := connectDB()
 
-	_, err = db.Exec("INSERT INTO demotable (answer, feedback) VALUES (?, ?)", content.Answer, content.Feedback)
+	_, err := db.Exec("INSERT INTO demotable (answer, feedback) VALUES (?, ?)", content.Answer, content.Feedback)
 	if err != nil {
 		fmt.Printf("DB Exec error %v\n", err)
 	}
