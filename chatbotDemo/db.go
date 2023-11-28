@@ -25,7 +25,7 @@ func connectDB() *sql.DB {
 	return db
 }
 
-func ReadContent() []DBContent {
+func ReadDB() []DBContent {
 	db := connectDB()
 	// Ping make sure connection to DB
 	err := db.Ping()
@@ -49,7 +49,6 @@ func ReadContent() []DBContent {
 		records = append(records, r)
 	}
 	return records
-
 }
 
 func ShowJSON() {
