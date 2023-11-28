@@ -25,7 +25,7 @@ func connectDB() *sql.DB {
 	return db
 }
 
-func ReadContent(content Content) {
+func ReadContent() []DBContent {
 	db := connectDB()
 	// Ping make sure connection to DB
 	err := db.Ping()
@@ -39,16 +39,16 @@ func ReadContent(content Content) {
 	}
 	defer rows.Close()
 
+	var records []DBContent
+
 	for rows.Next() {
-		var (
-			answer   string
-			feedback string
-		)
-		if err = rows.Scan(&answer, &feedback); err != nil {
+		var r DBContent
+		if err = rows.Scan(&r.ID, &r.Answer, &r.Feedback, &r.CreatedAt); err != nil {
 			fmt.Printf("DB Scan error %v\n", err)
 		}
-		fmt.Printf("")
+		records = append(records, r)
 	}
+	return records
 
 }
 
