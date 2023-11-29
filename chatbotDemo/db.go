@@ -5,14 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"time"
 )
 
 type DBContent struct {
 	ID        int
 	Answer    string
 	Feedback  string
-	CreatedAt time.Time
+	CreatedAt []uint8
 }
 
 func connectDB() *sql.DB {
@@ -21,7 +20,6 @@ func connectDB() *sql.DB {
 	if err != nil {
 		fmt.Printf("DB Connection error %v\n", err)
 	}
-	defer db.Close()
 	return db
 }
 
