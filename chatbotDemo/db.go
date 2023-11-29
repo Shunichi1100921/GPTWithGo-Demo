@@ -11,7 +11,7 @@ type DBContent struct {
 	ID        int
 	Answer    string
 	Feedback  string
-	CreatedAt []uint8
+	CreatedAt string
 }
 
 func connectDB() *sql.DB {
@@ -35,7 +35,7 @@ func SaveContent(content Content) {
 
 func ShowJSONFromDB() {
 	records := ReadDB()
-	ShowJSON(records)
+	fmt.Println(StructToJSON(records))
 }
 
 func ReadDB() []DBContent {
@@ -64,11 +64,10 @@ func ReadDB() []DBContent {
 	return records
 }
 
-func ShowJSON(records []DBContent) {
+func StructToJSON(records []DBContent) string {
 	b, err := json.Marshal(records)
 	if err != nil {
 		fmt.Printf("JSON Decoding error %v\n", err)
 	}
-
-	fmt.Println(b)
+	return string(b)
 }
