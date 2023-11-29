@@ -25,6 +25,16 @@ func connectDB() *sql.DB {
 	return db
 }
 
+func SaveContent(content Content) {
+	db := connectDB()
+
+	_, err := db.Exec("INSERT INTO demotable (answer, feedback) VALUES (?, ?)", content.Answer, content.Feedback)
+	if err != nil {
+		fmt.Printf("DB Exec error %v\n", err)
+	}
+	fmt.Println("Content inserted successfully.")
+}
+
 func ReadDB() []DBContent {
 	db := connectDB()
 	// Ping make sure connection to DB
@@ -60,14 +70,4 @@ func ShowJSON() {
 	}
 
 	fmt.Println(b)
-}
-
-func SaveContent(content Content) {
-	db := connectDB()
-
-	_, err := db.Exec("INSERT INTO demotable (answer, feedback) VALUES (?, ?)", content.Answer, content.Feedback)
-	if err != nil {
-		fmt.Printf("DB Exec error %v\n", err)
-	}
-	fmt.Println("Content inserted successfully.")
 }
