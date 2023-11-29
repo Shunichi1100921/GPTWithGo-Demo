@@ -61,10 +61,8 @@ func ReadDB() []DBContent {
 	return records
 }
 
-func ShowJSON() {
-	c := Content{"answer", "feadback"}
-
-	b, err := json.Marshal(c)
+func ShowJSON(records []DBContent) {
+	b, err := json.Marshal(records)
 	if err != nil {
 		fmt.Printf("JSON Decoding error %v\n", err)
 	}
