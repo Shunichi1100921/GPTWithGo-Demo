@@ -35,6 +35,11 @@ func SaveContent(content Content) {
 	fmt.Println("Content inserted successfully.")
 }
 
+func ShowJSONFromDB() {
+	records := ReadDB()
+	ShowJSON(records)
+}
+
 func ReadDB() []DBContent {
 	db := connectDB()
 	// Ping make sure connection to DB
