@@ -10,26 +10,19 @@ docker-compose up -d
 ```bash
 OPENAI_API_KEY=YOUR_API_KEY
 ```
-3. Execute the go file.
-  - If you want to use a Streaming response, code `func main` in `main.go` as below.
-```main.go
-func main() {
-    chatbotDemo.ChatStream()
-    // chatbotDemo.ChatJSON()
-}
+3. Execute the go file. If you want to run streaming ChatBot, run
+```bash
+go run cmd/stream
 ```
-  - If you want to use a JSON response, code `func main` in `main.go` as below.
-```main.go
-func main() {
-    // chatbotDemo.ChatStream()
-    chatbotDemo.ChatJSON()
-}
+or if you want to run ChatBot which returns JSON file, run
+```bash
+go run cmd/json
 ```
-5. Build a go file.
+4. Build a go file.
 ```bash
 go build
 ```
-6. Run the app.
+5. Run the app.
 ```bash
 ./demo
 ```
