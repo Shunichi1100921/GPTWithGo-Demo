@@ -25,7 +25,7 @@ func connectDB() *sql.DB {
 
 func SaveContent(content Content) {
 	db := connectDB()
-
+	defer db.Close()
 	_, err := db.Exec("INSERT INTO demotable (answer, feedback) VALUES (?, ?)", content.Answer, content.Feedback)
 	if err != nil {
 		fmt.Printf("DB Exec error %v\n", err)
