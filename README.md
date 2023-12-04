@@ -26,3 +26,16 @@ go build
 ```bash
 ./demo
 ```
+
+
+## How to open database directory.
+```bash
+docker exec -it demo-mysql-1 bash
+```
+
+```bash
+mysql -p demoSQL
+Enter password: 
+mysql> 
+```
+
