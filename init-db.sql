@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS your_table_name (
+CREATE TABLE IF NOT EXISTS demoTable (
     id INT AUTO_INCREMENT PRIMARY KEY,
     answer TEXT NOT NULL,
     feedback TEXT NOT NULL,
