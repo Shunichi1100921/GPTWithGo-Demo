@@ -10,25 +10,16 @@ docker-compose up -d
 ```bash
 OPENAI_API_KEY=YOUR_API_KEY
 ```
-3. Execute the go file. If you want to run streaming ChatBot, run
+3. Execute the go file. 
 ```bash
-go run cmd/stream
+go run main.go
 ```
-or if you want to run ChatBot which returns JSON file, run
+If you want to run ChatBot which stores to Database and returns JSON file, run
 ```bash
-go run cmd/json
-```
-4. Build a go file.
-```bash
-go build
-```
-5. Run the app.
-```bash
-./demo
+go run main.go --json
 ```
 
-
-## How to open database directory.
+## How to open database.
 ```bash
 docker exec -it demo-mysql-1 bash
 ```
