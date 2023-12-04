@@ -5,17 +5,18 @@ import (
 	"encoding/json"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"time"
 )
 
 type DBContent struct {
 	ID        int
 	Answer    string
 	Feedback  string
-	CreatedAt string
+	CreatedAt time.Time
 }
 
 func connectDB() *sql.DB {
-	dataSourceName := "root:password@tcp(localhost:3306)/demoSQL"
+	dataSourceName := "root:password@tcp(localhost:3306)/demoSQL?parseTime=True"
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		fmt.Printf("DB Connection error %v\n", err)
