@@ -26,7 +26,7 @@ func connectDB() *sql.DB {
 func SaveContent(content Content) {
 	db := connectDB()
 	defer db.Close()
-	_, err := db.Exec("INSERT INTO demotable (answer, feedback) VALUES (?, ?)", content.Answer, content.Feedback)
+	_, err := db.Exec("INSERT INTO demoTable (answer, feedback) VALUES (?, ?)", content.Answer, content.Feedback)
 	if err != nil {
 		fmt.Printf("DB Exec error %v\n", err)
 	}
@@ -46,7 +46,7 @@ func ReadDB() []DBContent {
 		fmt.Printf("DB Ping error %v\n", err)
 	}
 
-	rows, err := db.Query("SELECT * FROM demotable")
+	rows, err := db.Query("SELECT * FROM demoTable")
 	if err != nil {
 		fmt.Printf("DB Query error %v\n", err)
 	}
