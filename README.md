@@ -4,11 +4,12 @@ The demo code to use Open AI API written in Go.
 # SetUp
 1. Build Docker.
 ```bash
+docker-compose down
 docker-compose up -d
 ```
 2. Set OpenAI API Key as an environment variable.
 ```bash
-OPENAI_API_KEY=YOUR_API_KEY
+export OPENAI_API_KEY=YOUR_API_KEY
 ```
 3. Execute the go file. 
 ```bash
