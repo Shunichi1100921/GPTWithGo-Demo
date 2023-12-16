@@ -44,7 +44,7 @@ func SaveChatHistory(chatInput ChatInput, finalResponse string) {
 		log.Fatalf("DB Ping Error %v\n", err)
 	}
 
-	_, err := db.Exec("INSERT INTO demoSQL.chatHistory (user_prompt, bot_response) VALUES (?, ?)", chatInput.Message, finalResponse)
+	_, err := db.Exec("INSERT INTO demoSQL.chatHistory (id, user_prompt, bot_response) VALUES (?, ?, ?)", chatInput.ChatID, chatInput.Message, finalResponse)
 	if err != nil {
 		log.Fatalf("DB Exec error %v\n", err)
 	}
