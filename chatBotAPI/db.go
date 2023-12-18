@@ -14,13 +14,13 @@ func connectDB() *sql.DB {
 	return db
 }
 
-func getChatHistory(chatInput ChatInput) []ChatHistory {
+func GetChatHistory(chatID int) []ChatHistory {
 	db := connectDB()
 	if err := db.Ping(); err != nil {
 		log.Fatalf("DB Ping Error %v\n", err)
 	}
 
-	rows, err := db.Query("SELECT user_prompt, bot_response FROM demoSQL.chatHistory WHERE id = ? ORDER BY created_at", chatInput.ChatID)
+	rows, err := db.Query("SELECT user_prompt, bot_response FROM demoSQL.chatHistory WHERE id = ? ORDER BY created_at", chatID)
 	if err != nil {
 		log.Fatalf("DB Query error %v\n", err)
 	}
