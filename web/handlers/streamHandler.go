@@ -7,6 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"io"
 	"net/http"
+	"strconv"
 )
 
 func HandleStreamChat(c *gin.Context) {
@@ -45,4 +46,15 @@ func HandleStreamChat(c *gin.Context) {
 	})
 	// Save the chat history to the database.
 	chatBotAPI.SaveChatHistory(chatInput, finalResponse)
+}
+
+func HandleGetStreamChatHistory(c *gin.Context) {
+	idStr := c.Query("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	history := chatBotAPI.GetChatHistory(id)
+	c.JSON(http.StatusOK, history)
 }
