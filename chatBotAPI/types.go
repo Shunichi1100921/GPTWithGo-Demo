@@ -9,3 +9,8 @@ type ChatHistory struct {
 	UserPrompt  string `json:"user_prompt"`
 	BotResponse string `json:"bot_response"`
 }
+
+type JSONChatResponse struct {
+	Answer   string `json:"answer"`
+	Feedback string `json:"feedback"`
+}
