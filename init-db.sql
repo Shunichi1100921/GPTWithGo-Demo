@@ -11,4 +11,13 @@ CREATE TABLE IF NOT EXISTS chatHistory (
     user_prompt TEXT NOT NULL,
     bot_response TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS chatWithFeedbackHistory (
+    id INT NOT NULL,
+    user_id INT,
+    user_prompt TEXT NOT NULL,
+    bot_response TEXT NOT NULL,
+    feedback TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
