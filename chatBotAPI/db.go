@@ -20,7 +20,7 @@ func getChatHistory(chatInput ChatInput) []ChatHistory {
 		log.Fatalf("DB Ping Error %v\n", err)
 	}
 
-	rows, err := db.Query("SELECT user_prompt, bot_response FROM demoSQL.chatHistory WHERE id = ?", chatInput.ChatID)
+	rows, err := db.Query("SELECT user_prompt, bot_response FROM demoSQL.chatHistory WHERE id = ? ORDER BY created_at", chatInput.ChatID)
 	if err != nil {
 		log.Fatalf("DB Query error %v\n", err)
 	}
@@ -57,7 +57,7 @@ func getChatWithFeedbackHistory(chatInput ChatInput) []ChatHistory {
 		log.Fatalf("DB Ping Error %v\n", err)
 	}
 
-	rows, err := db.Query("SELECT user_prompt, bot_response FROM demoSQL.chatWithFeedbackHistory WHERE id = ?", chatInput.ChatID)
+	rows, err := db.Query("SELECT user_prompt, bot_response FROM demoSQL.chatWithFeedbackHistory WHERE id = ? ORDER BY created_at", chatInput.ChatID)
 	if err != nil {
 		log.Fatalf("DB Query error %v\n", err)
 	}
