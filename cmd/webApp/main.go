@@ -14,6 +14,7 @@ func main() {
 	r.POST("/chat/json", handlers.HandleJSONChat)
 
 	r.GET("/chat/stream/history", handlers.HandleGetStreamChatHistory)
+	r.GET("/chat/json/history", handlers.HandleGetJSONChatHistory)
 
 	if err := r.Run(); err != nil {
 		log.Fatalln(err)

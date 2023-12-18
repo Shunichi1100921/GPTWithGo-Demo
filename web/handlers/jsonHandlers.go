@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func HandleJSONChat(c *gin.Context) {
@@ -36,4 +37,15 @@ func HandleJSONChat(c *gin.Context) {
 
 	// Save the chat history to the database.
 	chatBotAPI.SaveChatHistoryWithFeedback(chatInput, content)
+}
+
+func HandleGetJSONChatHistory(c *gin.Context) {
+	idStr := c.Query("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	history := chatBotAPI.GetChatHistory(id, false)
+	c.JSON(http.StatusOK, history)
 }
