@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"bytes"
 	"demo/chatBotAPI"
 	"encoding/json"
 	"github.com/gin-gonic/gin"
@@ -33,14 +32,7 @@ func HandleJSONChat(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
 
-	var buf bytes.Buffer
-	err = json.Indent(&buf, msgByte, "", "  ")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-	}
-	prettyContent := buf.String()
-
-	c.JSON(http.StatusOK, prettyContent)
+	c.JSON(http.StatusOK, content)
 
 	// Save the chat history to the database.
 	chatBotAPI.SaveChatHistoryWithFeedback(chatInput, content)
