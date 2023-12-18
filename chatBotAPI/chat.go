@@ -12,7 +12,7 @@ func createOpenAIClient(apiKey string) *openai.Client {
 }
 
 func getOrCreateChatMessages(chatInput ChatInput, stream bool) []openai.ChatCompletionMessage {
-	chatHistory := GetChatHistory(chatInput.ChatID)
+	chatHistory := GetChatHistory(chatInput.ChatID, stream)
 
 	messages := createInitialMessage(stream)
 
