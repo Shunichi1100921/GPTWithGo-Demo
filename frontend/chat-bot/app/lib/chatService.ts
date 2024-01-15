@@ -27,7 +27,7 @@ export const sendMessageJSONChat = async (chatId: string, message: string) => {
     }
 };
 
-export const getStreamChatHistory = async (chatId: string) => {
+export const fetchStreamChatHistory = async (chatId: string) => {
     try {
         const response = await apiClient.get(`/chat/stream/history?id=${chatId}`);
         return response.data;
@@ -37,7 +37,7 @@ export const getStreamChatHistory = async (chatId: string) => {
     }
 };
 
-export const getJSONChatHistory = async (chatId: string) => {
+export const fetchJSONChatHistory = async (chatId: string) => {
     try {
         const response = await apiClient.get(`/chat/json/history?id=${chatId}`);
         return response.data;
