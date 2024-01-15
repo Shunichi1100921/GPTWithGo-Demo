@@ -1,3 +1,5 @@
-export default function Home() {
-  return <h1>ChatBot Home</h1>
+export default function RegisterPage() {
+  return (
+      <h1 className="flex p-32">Chat Bot Home.</h1>
+  );
 }
