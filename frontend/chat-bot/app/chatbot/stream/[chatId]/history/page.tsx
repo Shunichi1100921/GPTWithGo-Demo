@@ -14,7 +14,6 @@ export default async function Page({ params }: { params: { chatId: string }} ) {
         if (chatHistory) {
             return chatHistory.map((entry, index) => (
                 <div key={index}>
-                    <p>{typeof entry}</p>
                     <p>User: {entry.user_prompt}</p>
                     <p>Bot: {entry.bot_response}</p>
                 </div>
