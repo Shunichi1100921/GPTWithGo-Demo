@@ -1,40 +1,28 @@
-'use client';
-import React, { useState } from "react";
-import {sendMessageJSONChat} from "@/app/lib/chatService";
-import {redirect} from "next/navigation";
-import {revalidatePath} from "next/cache";
+import React, {ChangeEventHandler, FormEventHandler } from "react";
 
 
-export default function ChatInput({ chatId }: { chatId: string }) {
-    const [message, setMessage] = useState('')
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setMessage(event.target.value);
-    }
-
-    const handleSendMessage = async () => {
-        console.log("Sending message: ", message);
-        try {
-            const response = await sendMessageJSONChat(chatId, message);
-        } catch (error) {
-            console.error('Error sending message: ', error)
-        }
-
-        revalidatePath(`/chatbot/json/${chatId}/chat`)
-        redirect(`/chatbot/json/${chatId}/history`)
-    }
+export default function ChatInput({ value, onChange, onSubmit }: {
+    value: string,
+    onChange: ChangeEventHandler<HTMLInputElement>,
+    onSubmit: FormEventHandler,
+}) {
 
     return (
-        <form>
+        <form onSubmit={onSubmit}>
             <input
-                className="w-full"
+                className="w-full text-black"
                 id="chat-input"
                 type="text"
-                value={message}
-                onChange={handleInputChange}
+                value={value}
+                onChange={onChange}
                 placeholder={"Message to ChatBot..."}
             />
-            <button onClick={handleSendMessage} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">↑</button>
+            <button
+                type={"submit"}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+                ↑
+            </button>
         </form>
     )
 }
