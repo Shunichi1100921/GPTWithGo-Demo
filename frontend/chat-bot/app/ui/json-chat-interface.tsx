@@ -11,7 +11,7 @@ export interface ChatMessage {
     message: string;
 }
 
-export default function ChatInterface({ chatId }: { chatId: string }) {
+export default function JSONChatInterface({ chatId }: { chatId: string }) {
 
     const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
     const [currentMessage, setCurrentMessage] = useState<string>("");
