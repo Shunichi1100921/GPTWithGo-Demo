@@ -2,6 +2,7 @@ package chatBotAPI
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -45,17 +46,18 @@ func GetChatHistory(chatID int, stream bool) []ChatHistory {
 	return chatHistories
 }
 
-func SaveChatHistory(chatInput ChatInput, finalResponse string) {
+func SaveChatHistory(chatInput ChatInput, finalResponse string) (err error) {
 	db := connectDB()
 	if err := db.Ping(); err != nil {
 		log.Fatalf("DB Ping Error %v\n", err)
 	}
 
-	_, err := db.Exec("INSERT INTO demoSQL.chatHistory (id, user_prompt, bot_response) VALUES (?, ?, ?)", chatInput.ChatID, chatInput.Message, finalResponse)
+	_, err = db.Exec("INSERT INTO demoSQL.chatHistory (id, user_prompt, bot_response) VALUES (?, ?, ?)", chatInput.ChatID, chatInput.Message, finalResponse)
 	if err != nil {
-		log.Fatalf("DB Exec error %v\n", err)
+		return fmt.Errorf("DB Exec error in SaveChatHistory %v\n", err)
 	}
 	log.Println("Chat history was saved successfully.")
+	return
 }
 
 func SaveChatHistoryWithFeedback(chatInput ChatInput, response JSONChatResponse) {

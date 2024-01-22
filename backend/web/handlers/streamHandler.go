@@ -46,7 +46,10 @@ func HandleStreamChat(c *gin.Context) {
 		return true
 	})
 	// Save the chat history to the database.
-	chatBotAPI.SaveChatHistory(chatInput, finalResponse)
+	if err := chatBotAPI.SaveChatHistory(chatInput, finalResponse); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 }
 
 func HandleGetStreamChatHistory(c *gin.Context) {
