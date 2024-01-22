@@ -11,10 +11,13 @@ func createOpenAIClient(apiKey string) *openai.Client {
 	return openai.NewClient(apiKey)
 }
 
-func getOrCreateChatMessages(chatInput ChatInput, stream bool) []openai.ChatCompletionMessage {
-	chatHistory := GetChatHistory(chatInput.ChatID, stream)
+func getOrCreateChatMessages(chatInput ChatInput, stream bool) (messages []openai.ChatCompletionMessage, err error) {
+	chatHistory, err := GetChatHistory(chatInput.ChatID, stream)
+	if err != nil {
+		return messages, fmt.Errorf("Error getting chat history: %v\n", err)
+	}
 
-	messages := createInitialMessage(stream)
+	messages = createInitialMessage(stream)
 
 	for _, h := range chatHistory {
 		messages = append(messages, openai.ChatCompletionMessage{
@@ -32,7 +35,7 @@ func getOrCreateChatMessages(chatInput ChatInput, stream bool) []openai.ChatComp
 		Content: chatInput.Message,
 	})
 
-	return messages
+	return messages, err
 }
 
 func createInitialMessage(stream bool) []openai.ChatCompletionMessage {
@@ -52,22 +55,27 @@ func createInitialMessage(stream bool) []openai.ChatCompletionMessage {
 	}
 }
 
-func createChatRequest(chatInput ChatInput, stream bool) openai.ChatCompletionRequest {
-	messages := getOrCreateChatMessages(chatInput, stream)
+func createChatRequest(chatInput ChatInput, stream bool) (req openai.ChatCompletionRequest, err error) {
+	messages, err := getOrCreateChatMessages(chatInput, stream)
+	if err != nil {
+		return
+	}
 	if stream {
-		return openai.ChatCompletionRequest{
+		req = openai.ChatCompletionRequest{
 			Model:     openai.GPT3Dot5Turbo,
 			MaxTokens: 1000,
 			Messages:  messages,
 			Stream:    stream,
 		}
+		return
 	} else {
-		return openai.ChatCompletionRequest{
+		req = openai.ChatCompletionRequest{
 			Model:          openai.GPT3Dot5Turbo1106,
 			MaxTokens:      1000,
 			Messages:       messages,
 			ResponseFormat: &openai.ChatCompletionResponseFormat{Type: openai.ChatCompletionResponseFormatTypeJSONObject},
 		}
+		return
 	}
 }
 
@@ -76,7 +84,7 @@ func CreateChatCompletionStream(chatInput ChatInput) (stream *openai.ChatComplet
 	client := createOpenAIClient(apiKey)
 	ctx := context.Background()
 
-	request := createChatRequest(chatInput, true)
+	request, err := createChatRequest(chatInput, true)
 	stream, err = client.CreateChatCompletionStream(ctx, request)
 	if err != nil {
 		return nil, fmt.Errorf("Error creating Stream chat completion: %v\n", err)
@@ -89,7 +97,10 @@ func CreateChatCompletionJSON(chatInput ChatInput) (response openai.ChatCompleti
 	client := createOpenAIClient(apiKey)
 	ctx := context.Background()
 
-	request := createChatRequest(chatInput, false)
+	request, err := createChatRequest(chatInput, false)
+	if err != nil {
+		return response, err
+	}
 	response, err = client.CreateChatCompletion(ctx, request)
 	if err != nil {
 		return response, fmt.Errorf("Error creating JSON chat completion: %v\n", err)

@@ -38,7 +38,10 @@ func HandleJSONChat(c *gin.Context) {
 	c.JSON(http.StatusOK, content)
 
 	// Save the chat history to the database.
-	chatBotAPI.SaveChatHistoryWithFeedback(chatInput, content)
+	if err = chatBotAPI.SaveChatHistoryWithFeedback(chatInput, content); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 }
 
 func HandleGetJSONChatHistory(c *gin.Context) {
@@ -48,6 +51,10 @@ func HandleGetJSONChatHistory(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	history := chatBotAPI.GetChatHistory(id, false)
+	history, err := chatBotAPI.GetChatHistory(id, false)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, history)
 }

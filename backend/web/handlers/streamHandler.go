@@ -59,6 +59,10 @@ func HandleGetStreamChatHistory(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	history := chatBotAPI.GetChatHistory(id, true)
+	history, err := chatBotAPI.GetChatHistory(id, true)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, history)
 }
