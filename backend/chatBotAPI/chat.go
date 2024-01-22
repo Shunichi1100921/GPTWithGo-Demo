@@ -58,7 +58,7 @@ func createInitialMessage(stream bool) []openai.ChatCompletionMessage {
 func createChatRequest(chatInput ChatInput, stream bool) (req openai.ChatCompletionRequest, err error) {
 	messages, err := getOrCreateChatMessages(chatInput, stream)
 	if err != nil {
-		return
+		return req, fmt.Errorf("Error getting or creating chat messages: %v\n", err)
 	}
 	if stream {
 		req = openai.ChatCompletionRequest{
@@ -99,7 +99,7 @@ func CreateChatCompletionJSON(chatInput ChatInput) (response openai.ChatCompleti
 
 	request, err := createChatRequest(chatInput, false)
 	if err != nil {
-		return response, err
+		return response, fmt.Errorf("Error creating JSON chat completion request: %v\n", err)
 	}
 	response, err = client.CreateChatCompletion(ctx, request)
 	if err != nil {

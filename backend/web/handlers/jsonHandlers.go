@@ -15,13 +15,13 @@ func HandleJSONChat(c *gin.Context) {
 
 	var chatInput chatBotAPI.ChatInput
 	if err := c.BindJSON(&chatInput); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"BindJSON error": err.Error()})
 		return
 	}
 
 	response, err := chatBotAPI.CreateChatCompletionJSON(chatInput)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"Creating JSON Chat Completion error": err.Error()})
 		return
 	}
 
@@ -31,7 +31,7 @@ func HandleJSONChat(c *gin.Context) {
 	var content chatBotAPI.JSONChatResponse
 	err = json.Unmarshal(msgByte, &content)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"JSON Unmarshal error": err.Error()})
 		return
 	}
 
@@ -39,7 +39,7 @@ func HandleJSONChat(c *gin.Context) {
 
 	// Save the chat history to the database.
 	if err = chatBotAPI.SaveChatHistoryWithFeedback(chatInput, content); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"Saving Chat history error": err.Error()})
 		return
 	}
 }
@@ -48,12 +48,12 @@ func HandleGetJSONChatHistory(c *gin.Context) {
 	idStr := c.Query("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"Invalid ID error.": err.Error()})
 		return
 	}
 	history, err := chatBotAPI.GetChatHistory(id, false)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"Getting chat history error": err.Error()})
 		return
 	}
 	c.JSON(http.StatusOK, history)
