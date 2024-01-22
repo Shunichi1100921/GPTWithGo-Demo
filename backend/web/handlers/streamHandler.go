@@ -24,6 +24,7 @@ func HandleStreamChat(c *gin.Context) {
 	stream, err := chatBotAPI.CreateChatCompletionStream(chatInput)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	var finalResponse string

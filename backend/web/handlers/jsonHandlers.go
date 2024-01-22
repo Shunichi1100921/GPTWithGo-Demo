@@ -22,6 +22,7 @@ func HandleJSONChat(c *gin.Context) {
 	response, err := chatBotAPI.CreateChatCompletionJSON(chatInput)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	msg := response.Choices[0].Message.Content
@@ -31,6 +32,7 @@ func HandleJSONChat(c *gin.Context) {
 	err = json.Unmarshal(msgByte, &content)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, content)
