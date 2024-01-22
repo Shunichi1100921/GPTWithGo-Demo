@@ -2,8 +2,8 @@ package chatBotAPI
 
 import (
 	"context"
+	"fmt"
 	"github.com/sashabaranov/go-openai"
-	"log"
 	"os"
 )
 
@@ -79,7 +79,7 @@ func CreateChatCompletionStream(chatInput ChatInput) (stream *openai.ChatComplet
 	request := createChatRequest(chatInput, true)
 	stream, err = client.CreateChatCompletionStream(ctx, request)
 	if err != nil {
-		log.Fatalf("Error creating chat completion: %v\n", err)
+		return nil, fmt.Errorf("Error creating Stream chat completion: %v\n", err)
 	}
 	return
 }
@@ -92,7 +92,7 @@ func CreateChatCompletionJSON(chatInput ChatInput) (response openai.ChatCompleti
 	request := createChatRequest(chatInput, false)
 	response, err = client.CreateChatCompletion(ctx, request)
 	if err != nil {
-		log.Fatalf("Error creating chat completion: %v\n", err)
+		return response, fmt.Errorf("Error creating JSON chat completion: %v\n", err)
 	}
 	return
 }
