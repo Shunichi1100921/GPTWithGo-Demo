@@ -55,8 +55,13 @@ export default function StreamChatInterface({ chatId }: { chatId: string }) {
                             break;
                         }
                         const decoded = decoder.decode(value, {stream: true});
-                        console.log('decoded: ', decoded);
-                        setCurrentAnswer((preAnswer) => preAnswer + decoded);
+                        const lines = decoded.split('\n');
+                        lines.forEach((line) => {
+                            if (line.startsWith('data:')) {
+                            const message = line.replace('data:', '').trim();
+                            setCurrentAnswer((preAnswer) => preAnswer + message);
+                            }
+                        });
                     }
                     reader.releaseLock();
                 }
