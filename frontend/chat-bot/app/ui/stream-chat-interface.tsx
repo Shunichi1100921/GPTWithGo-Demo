@@ -45,10 +45,12 @@ export default function StreamChatInterface({ chatId }: { chatId: string }) {
                         if (done) {
                             console.log("Stream Complete.");
                             setCurrentAnswer((preAnswer) => {
-                                setChatLog([
-                                    {sender: 'user', message: currentMessage},
-                                    {sender: 'bot', message: preAnswer}
-                                ])
+                                setChatLog((preChatLog) => {
+                                    if (preChatLog[preChatLog.length - 1].sender !== 'bot') {
+                                        return [...preChatLog, {sender: 'bot', message: preAnswer}]
+                                    }
+                                    return preChatLog;
+                                })
                                 return "";
                             })
                             setCurrentMessage("")
