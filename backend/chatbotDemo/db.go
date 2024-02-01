@@ -21,6 +21,9 @@ func connectDB() *sql.DB {
 	if err != nil {
 		fmt.Printf("DB Connection error %v\n", err)
 	}
+	if err := db.Ping(); err != nil {
+		return connectDB()
+	}
 	return db
 }
 
